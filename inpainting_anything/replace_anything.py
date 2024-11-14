@@ -30,10 +30,6 @@ def setup_args(parser):
         help="choose object for detect",
     )
     parser.add_argument(
-        "--point_coords", type=float, nargs='+', required=True,
-        help="The coordinate of the point prompt, [coord_W coord_H].",
-    )
-    parser.add_argument(
         "--point_labels", type=int, nargs='+', required=True,
         help="The labels of the point prompt, 1 or 0.",
     )
@@ -99,6 +95,10 @@ if __name__ == "__main__":
     height = (boxes[0][1] + boxes[0][3])/2
    
     
+    # if args.coords_type == "click":
+    #     latest_coords = get_clicked_point(args.input_img)
+    # elif args.coords_type == "key_in":
+    #     latest_coords = args.point_coords
     img = load_img_to_array(args.input_img)
 
     latest_coords = [width, height]
