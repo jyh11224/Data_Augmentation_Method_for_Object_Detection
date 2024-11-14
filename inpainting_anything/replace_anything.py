@@ -18,8 +18,6 @@ from PIL import Image
 from io import BytesIO
 from lang_sam import LangSAM
 
-text_prompt = "person"
-
 
 
 def setup_args(parser):
@@ -28,9 +26,8 @@ def setup_args(parser):
         help="Path to a single input img",
     )
     parser.add_argument(
-        "--coords_type", type=str, required=True,
-        default="key_in", choices=["click", "key_in"], 
-        help="The way to select coords",
+        "--detect", type=str, required=True, default="person",
+        help="choose object for detect",
     )
     parser.add_argument(
         "--point_coords", type=float, nargs='+', required=True,
@@ -96,17 +93,15 @@ if __name__ == "__main__":
     image_pil = Image.open(args.input_img).convert("RGB")
 
     model = LangSAM()
-    masks, boxes, phrases, logits = model.predict(image_pil, text_prompt)
+    masks, boxes, phrases, logits = model.predict(image_pil, args.detect)
     boxes = boxes.tolist()
     width = (boxes[0][0] + boxes[0][2])/2
     height = (boxes[0][1] + boxes[0][3])/2
    
-    latest_coords = [width, height]
-    # if args.coords_type == "click":
-    #     latest_coords = get_clicked_point(args.input_img)
-    # elif args.coords_type == "key_in":
-    #     latest_coords = args.point_coords
+    
     img = load_img_to_array(args.input_img)
+
+    latest_coords = [width, height]
    
     masks, _, _ = predict_masks_with_sam(
         img,
