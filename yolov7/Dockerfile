@@ -3,6 +3,7 @@ FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 
+
 ARG FCM_VERSION=main
 ENV FCM_VERSION=${FCM_VERSION}
 
